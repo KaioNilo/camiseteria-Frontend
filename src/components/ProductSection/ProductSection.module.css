@@ -14,13 +14,13 @@
 
 .swiperWrapper {
     width: 100%;
-    position: relative; /* CRUCIAL: Base para posicionamento absoluto das setas */
+    position: relative;
     margin-top: 30px;
 }
 
 /* SWIPER CONTAINER */
 .cardsSwiper {
-    width: 95%; 
+    width: 90%; 
     height: 850px; 
     padding: 0 100px;
 }

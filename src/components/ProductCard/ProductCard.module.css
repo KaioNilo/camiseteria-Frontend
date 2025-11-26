@@ -1,7 +1,7 @@
 .card {
     background-color: #FAC697;
     color: #550252;
-    width: 290px;
+    width: 250px;
     height: 390px;
     border-radius: 10px;
     display: flex;
@@ -63,25 +63,24 @@ p {
 
 .sizes {
     color: #f81c59;
-    max-width: 200px;
+    width: 90px;
     display: flex;
     flex-direction: column;
-    font-size: 15px;
 }
 
 .availableSizes {
     color:  #f81c59;
     display: flex;
-    gap: 5px;      
+    justify-content: center;
+    gap: 3px;      
     flex-wrap: wrap;
-    font-weight: 600;
-    margin-top: 7px;
+    margin-top: 5px;
 }
 
 .singleSize {
     border: 1px solid #f81c59;
     border-radius: 5px;
-    padding: 3px; 
+    padding: 2px; 
     font-weight: bold;
-    font-size: 12px;
+    font-size: 8px;
 }

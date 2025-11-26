@@ -1,0 +1,87 @@
+.card {
+    background-color: #FAC697;
+    color: #550252;
+    width: 290px;
+    height: 390px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    padding: 15px 17px;
+    box-shadow: 0px 4px 4px rgba(85, 2, 82, 0.15);
+}
+
+.card:hover {
+  transition: all 0.2s ease-in-out;
+  transform: scale(1.1);
+}
+
+.image {
+    width: 100%;
+    height: 250px;
+    margin-bottom: 10px;
+    border: #55025225 1px solid;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px rgba(85, 2, 82, 0.15);
+}
+
+h5 {
+    font-size: 20px;
+    font-weight: medium;
+    text-transform: uppercase;
+    margin: 10px 0 7px 0;
+}
+
+.info {
+    width: 100%;
+    display: flex;
+    align-items: self-start;
+    justify-content: space-between;
+}
+
+p {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.price span {
+    text-decoration: line-through;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.price {
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+}
+
+.price h3 {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.sizes {
+    color: #f81c59;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+}
+
+.availableSizes {
+    color:  #f81c59;
+    display: flex;
+    gap: 5px;      
+    flex-wrap: wrap;
+    font-weight: 600;
+    margin-top: 7px;
+}
+
+.singleSize {
+    border: 1px solid #f81c59;
+    border-radius: 5px;
+    padding: 3px; 
+    font-weight: bold;
+    font-size: 12px;
+}

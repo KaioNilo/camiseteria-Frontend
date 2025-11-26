@@ -1,0 +1,127 @@
+.simulation {
+  background-color: #F81C59;
+  height: 400px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.imgFrete {
+  background-image: url('../../assets/arrows.png');
+  background-size: cover;
+  height: 400px;
+  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+}
+
+
+.formFrete {
+  height: 100%;
+  width: 800px;
+  padding-left: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 24px;
+  color: #FFF5ED;
+  padding-top: 40px;
+}
+
+.formFrete h1 {
+  margin-bottom: 20px;
+}
+
+.cep input {
+  height: 42px;
+  width: 45%;
+  border: none;
+  border-radius: 10px;
+  padding: 0 10px;
+  margin-right: 10px;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.cep input:hover{
+  border: 3px solid #550252;
+  transition: 0.5s;
+}
+
+.erroCep {
+  color: #FFF5ED;
+  margin-top: -20px;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.cep button {
+  height: 45px;
+  width: 25%;
+  border: none;
+  border-radius: 10px;
+  background-color: #550252;
+  color: #FFF5ED;
+  font-size: 18px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.cep button:active {
+  background-color: #FAC697;
+  border: 2px solid #550252;
+  color: #550252;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.cep button:hover {
+  background-color: #FAC697;
+  color: #550252;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.resultado {
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.endereco{
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.endereco p {
+  max-width: 410px;
+}
+
+
+.botaoWpp {
+  background-color: #550252;
+  border: none;
+  box-shadow: 0px 3px 5px rgba(85, 2, 82, 0.2);
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #FFF5ED;
+  height: 50px;
+  width: 72%;
+}
+
+.botaoWpp:hover {
+  background-color: #FAC697;
+  color: #550252;
+  font-weight: bold;
+  border: 1px solid #550252;
+  transition: 0.5s;
+}

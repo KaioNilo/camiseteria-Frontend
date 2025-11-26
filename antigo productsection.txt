@@ -1,0 +1,136 @@
+import React, { useState, useEffect } from 'react';
+import ProductCard from "../ProductCard"; 
+import styles from './ProductSection.module.css';
+
+// Configurações exibição
+const CARDS_PER_PAGE = 8;
+
+function ProductSection() {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    // Buscar dados API
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                // Chamar rota
+                const response = await fetch('/api/produtos'); 
+                const data = await response.json();
+                
+                if (response.ok) {
+                    setProducts(data);
+                } else {
+                    throw new Error(data.message || "Erro ao buscar produtos.");
+                }
+            } catch (err) {
+                console.error("Erro no fetch de produtos:", err);
+                setError("Não foi possível carregar os produtos.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    // Cálculo para navegação
+    const totalPages = Math.ceil(products.length / CARDS_PER_PAGE);
+    const startIndex = currentPage * CARDS_PER_PAGE;
+    const endIndex = startIndex + CARDS_PER_PAGE;
+    const visibleProducts = products.slice(startIndex, endIndex);
+
+    const handleNext = () => {
+        setCurrentPage((prev) => (prev + 1) % totalPages); // Roda o carrossel em loop
+    };
+
+    const handlePrev = () => {
+        setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+    };
+
+    if (loading) return <div className={styles.section}>Carregando produtos...</div>;
+    if (error) return <div className={styles.section} style={{color: 'red'}}>{error}</div>;
+    if (products.length === 0) return <div className={styles.section}>Nenhum produto em destaque.</div>;
+
+    return (
+        <section className={styles.productSection}>
+            <h2>Nossos Produtos em Destaque</h2>
+            
+            <div className={styles.carouselContainer}>
+                {/* Botão de Anterior */}
+                <button 
+                    className={`${styles.navButton} ${styles.left}`} 
+                    onClick={handlePrev} 
+                    disabled={totalPages <= 1} // Desabilita se só houver uma página
+                >
+                    &lt;
+                </button>
+
+                {/* Grid de Cards (A área visível) */}
+                <div className={styles.productsGrid}>
+                    {visibleProducts.map(product => (
+                        <ProductCard key={product._id} product={product} />
+                    ))}
+                </div>
+
+                {/* Botão de Próximo */}
+                <button 
+                    className={`${styles.navButton} ${styles.right}`} 
+                    onClick={handleNext} 
+                    disabled={totalPages <= 1}
+                >
+                    &gt;
+                </button>
+            </div>
+            
+            {/* Indicador de página (opcional) */}
+            {totalPages > 1 && (
+                <div className={styles.pagination}>
+                    Página {currentPage + 1} de {totalPages}
+                </div>
+            )}
+        </section>
+    );
+}
+
+export default ProductSection;
+
+
+--------
+
+
+
+
+.carouselContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden; /* Garante que o conteúdo que passar do limite não apareça */
+}
+
+.productsGrid {
+    display: grid;
+    /* Define 4 colunas para o layout desejado */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+    width: 100%;
+    /* Altura fixa para manter o layout */
+    height: 500px; 
+    padding: 10px 0;
+}
+
+.navButton {
+    /* Estilos de botão de navegação */
+    position: absolute;
+    z-index: 10; 
+    /* ... (outros estilos) */
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}

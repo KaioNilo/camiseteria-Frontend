@@ -1,0 +1,60 @@
+
+.productSection {
+    background-color: #FFF5ED;
+    width: 100%;
+    height: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding-top: 40px;
+    color: #550252;
+    text-align: center;
+}
+
+.swiperWrapper {
+    width: 100%;
+    position: relative; /* CRUCIAL: Base para posicionamento absoluto das setas */
+    margin-top: 30px;
+}
+
+/* SWIPER CONTAINER */
+.cardsSwiper {
+    width: 95%; 
+    height: 850px; 
+    padding: 0 100px;
+}
+
+/* SLIDE */
+.cardsSwiper :global(.swiper-slide),
+.cardsSwiper .swiper-slide { 
+    width: calc(25% - 15px); 
+    height: calc(50% - 10px);
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
+
+/* SETAS Posicionamento absoluto */
+.swiperWrapper .swiper-button-prev,
+.swiperWrapper .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #550252;
+    z-index: 10;
+    cursor: pointer;
+}
+
+/* Seta Prev*/
+.swiperWrapper .swiper-button-prev {
+    left: 30px; 
+    right: auto;
+}
+
+/* Seta Next */
+.swiperWrapper .swiper-button-next {
+    right: 30px; 
+    left: auto;
+}

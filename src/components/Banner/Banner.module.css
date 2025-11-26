@@ -1,0 +1,14 @@
+.banner {
+  height: 350px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin-top: 70px;
+}
+
+.slide-item {
+  height: 350px;
+  width: 100%;
+  object-fit: cover;
+}

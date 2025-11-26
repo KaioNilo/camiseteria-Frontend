@@ -1,0 +1,11 @@
+.details {
+  background-color: #fff5ed;
+  height: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #550252
+}

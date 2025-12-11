@@ -114,13 +114,13 @@ function Simulation() {
             </div>
 
             <div className={styles.formFrete}>
-                <h1>Simular Frete e Prazo</h1>
+                <h1>Simular Frete:</h1>
 
                 {/* FORMULÁRIO COMPLETO */}
                 <form onSubmit={handleSubmit} className={styles.formCalculo}>
                     
                     {/* Input CEP */}
-                    <div className='cep'>
+                    <div className={styles.cep}>
                         <label htmlFor="cep">CEP:</label>
                         <input
                           type='text'
@@ -147,28 +147,34 @@ function Simulation() {
                     </div>
 
                     {/* Forma de Envio */}
-                    <div className={styles.opcoesEnvio}>
-                        <h3>Selecione a forma de envio:</h3>
-                        <label>
-                            <input 
-                                type="radio" 
-                                value="pac" 
-                                checked={servico === 'pac'}
-                                onChange={() => setServico('pac')}
-                                required
-                            />
-                            **PAC** (Envio Econômico)
+                    <div>
+                        <label >
+                            Forma de envio:
                         </label>
-                        <label>
-                            <input 
-                                type="radio" 
-                                value="sedex" 
-                                checked={servico === 'sedex'}
-                                onChange={() => setServico('sedex')}
-                                required
-                            />
-                            **SEDEX** (Envio Expresso)
-                        </label>
+
+                        <div className={styles.opcoesEnvio}>
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    value="pac" 
+                                    checked={servico === 'pac'}
+                                    onChange={() => setServico('pac')}
+                                    required
+                                />
+                                PAC
+                            </label>
+                            <label>
+                                <input 
+                                    type="radio" 
+                                    value="sedex" 
+                                    checked={servico === 'sedex'}
+                                    onChange={() => setServico('sedex')}
+                                    required
+                                />
+                                SEDEX
+                            </label>
+                        </div>
+
                     </div>
 
                     {/* Botão Pesquisa */}
@@ -197,7 +203,7 @@ function Simulation() {
                             <h2>R$ {valorFrete.replace('.', ',')}</h2> 
                             
                             {/* Botão WhatsApp */}
-                            <button className={styles.botaoWpp} type='button'>
+                            <button type='button'>
                                 Encaminhar para whatsapp da loja
                             </button>
                         </div>

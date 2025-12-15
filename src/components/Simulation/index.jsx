@@ -6,6 +6,10 @@ import imgFrete from '../../assets/imgFrete.png';
 // TROQUE ESTE CEP para o seu CEP de ORIGEM final
 const CEP_ORIGEM = '01001000'; 
 
+// URL PÚBLICO DO SEU BACK-END NO RENDER
+// 🚨 MUDANÇA CRÍTICA: Definindo a URL base da API
+const RENDER_API_BASE_URL = 'https://camiseteria-backend.onrender.com';
+
 // VALORES AJUSTADOS PARA GARANTIR COMPATIBILIDADE COM REGRAS MÍNIMAS DA API
 const DADOS_PRODUTO_UNITARIO = {
     peso: 0.5,       // 500g
@@ -75,8 +79,9 @@ function Simulation() {
             selected_service: servicoEscolhido.toUpperCase() // Envia o nome (PAC/SEDEX)
         };
         
-        // 4. Chamada ao seu servidor intermediário
-        const response = await fetch('/api/frete', { 
+        // 4. Chamada ao seu servidor intermediário (AGORA COM O URL DO RENDER)
+        // 🚨 MUDANÇA CRÍTICA: Usando o URL completo
+        const response = await fetch(`${RENDER_API_BASE_URL}/api/frete`, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyParaEnvio),

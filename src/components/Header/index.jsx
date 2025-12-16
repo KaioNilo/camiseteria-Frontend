@@ -10,7 +10,7 @@ function Header() {
                 <a href="#">Sobre Nós</a>
             </nav>
 
-            <img className={styles.logo} src="./src/assets/LogoRoxa.png" alt="Logo Oliveira Camiseteria" />
+            <img className={styles.logo} src="https://res.cloudinary.com/dqk535bkf/image/upload/v1765913112/LogoRoxa_ojdvqr.png" alt="Logo Oliveira Camiseteria" />
 
             <div className={styles.redes}>
                 <span>

@@ -12,8 +12,8 @@
 }
 
 .formFrete {
-  height: 100%;
-  width: 500px;
+  height: 400px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -152,18 +152,28 @@ button:hover {
   transition: 0.5s;
 }
 
-
-@media (min-width: 800px) {
-  .imgFrete {
-    display: block;
-    background-image: url('https://res.cloudinary.com/dqk535bkf/image/upload/v1765941002/BgSimulation_r9syab.png');
+@media (min-width: 700px) and (max-width: 939px) {
+  .simulation {
+    background-image: url('https://res.cloudinary.com/dqk535bkf/image/upload/v1766011159/BgSimulation_2_ouq4xo.png');
     background-size: cover;
-    height: 400.5px;
-    width: 700px;
   }
 
   .formFrete {
     margin-left: auto;
-    margin-right: 0;
+    background-color: #F81C59;
+  }
+}
+
+
+@media (min-width: 940px) {
+  .simulation {
+    background-image: url('https://res.cloudinary.com/dqk535bkf/image/upload/v1766010558/BgSimulation_r9syab.png');
+    background-size: cover;
+  }
+
+  .formFrete {
+    margin-left: auto;
+    margin-right: 70px;
+    background-color: #F81C59;
   }
 }

@@ -164,7 +164,6 @@ function Simulation() {
         <div className={styles.simulation}>
             
             <div className={styles.imgFrete}>
-                {<img src={imgFrete} alt="Imagem de um caminhão Frete" />}
             </div>
 
             <div className={styles.formFrete}>

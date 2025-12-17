@@ -3,27 +3,21 @@
   height: 400px;
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 .imgFrete {
-  background-image: url('../../assets/arrows.png');
-  background-size: cover;
-  height: 400px;
-  width: 600px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 0;
+  display: none;
 }
 
 .formFrete {
   height: 100%;
   width: 500px;
-  padding-left: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   font-size: 22px;
   color: #FFF5ED;
   padding-top: 40px;
@@ -156,4 +150,20 @@ button:hover {
   color: #550252;
   font-weight: bold;
   transition: 0.5s;
+}
+
+
+@media (min-width: 800px) {
+  .imgFrete {
+    display: block;
+    background-image: url('https://res.cloudinary.com/dqk535bkf/image/upload/v1765941002/BgSimulation_r9syab.png');
+    background-size: cover;
+    height: 400.5px;
+    width: 700px;
+  }
+
+  .formFrete {
+    margin-left: auto;
+    margin-right: 0;
+  }
 }

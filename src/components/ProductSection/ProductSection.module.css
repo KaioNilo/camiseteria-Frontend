@@ -18,7 +18,6 @@
     margin-top: 30px;
 }
 
-/* SWIPER CONTAINER */
 .cardsSwiper {
     width: 90%; 
     height: 850px; 
@@ -36,7 +35,7 @@
 }
 
 
-/* SETAS Posicionamento absoluto */
+/* SETAS*/
 .swiperWrapper .swiper-button-prev,
 .swiperWrapper .swiper-button-next {
     position: absolute;
@@ -47,14 +46,19 @@
     cursor: pointer;
 }
 
-/* Seta Prev*/
 .swiperWrapper .swiper-button-prev {
     left: 30px; 
     right: auto;
 }
 
-/* Seta Next */
 .swiperWrapper .swiper-button-next {
     right: 30px; 
     left: auto;
+}
+
+@media screen  and (max-width: 790px) {
+    .productSection {
+        margin-top: 70px;
+    }
+    
 }

@@ -1,10 +1,9 @@
 .simulation {
-  background-color: #F81C59;
-  height: 400px;
+  background-image: url('https://res.cloudinary.com/dqk535bkf/image/upload/v1766162661/BgSimulationMobile_fzkkui.png');
+  height: 500px;
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .imgFrete {
@@ -12,15 +11,14 @@
 }
 
 .formFrete {
-  height: 400px;
-  width: 400px;
+  background-color: #F81C59;
+  height: 500px;
+  width: 330px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   font-size: 22px;
   color: #FFF5ED;
-  padding-top: 40px;
+  padding: 40px;
 }
 
 .formFrete h1 {
@@ -152,7 +150,7 @@ button:hover {
   transition: 0.5s;
 }
 
-@media (min-width: 700px) and (max-width: 939px) {
+@media (min-width: 700px) and (max-width: 1099px) {
   .simulation {
     background-image: url('https://res.cloudinary.com/dqk535bkf/image/upload/v1766011159/BgSimulation_2_ouq4xo.png');
     background-size: cover;
@@ -165,7 +163,7 @@ button:hover {
 }
 
 
-@media (min-width: 940px) {
+@media (min-width: 1100px) {
   .simulation {
     background-image: url('https://res.cloudinary.com/dqk535bkf/image/upload/v1766010558/BgSimulation_r9syab.png');
     background-size: cover;

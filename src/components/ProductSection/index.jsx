@@ -38,7 +38,7 @@ function ProductSection({ }) {
 
     return (
 
-        <section className={styles.productSection}>
+        <section id="produtos" className={styles.productSection}>
             <h1>Nossos Produtos</h1>
             
             {products.length > 0 ? (

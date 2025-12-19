@@ -161,7 +161,7 @@ function Simulation() {
 
     // --- RENDERIZAÇÃO ---
     return (
-        <div className={styles.simulation}>
+        <div id='frete' className={styles.simulation}>
             
             <div className={styles.imgFrete}>
             </div>

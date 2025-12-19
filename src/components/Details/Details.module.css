@@ -5,7 +5,7 @@
   align-items: center;
   color: #550252;
   min-height: 100vh;
-  padding: 40px;
+  padding: 40px 20px; 
 }
 
 .imageDetails {

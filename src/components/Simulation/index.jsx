@@ -1,40 +1,34 @@
 import React, { useState } from 'react';
 import styles from './Simulation.module.css';
-import imgFrete from '../../assets/imgFrete.png';
+
+// --- CONFIGURAÇÃO DE AMBIENTE ---
+// O Vite utiliza 'import.meta.env' para carregar variáveis do arquivo .env
+// Se a variável não estiver definida, ele usará o localhost como fallback.
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 // --- DADOS FIXOS DA EMPRESA E DO PRODUTO ---
-// TROQUE ESTE CEP para o seu CEP de ORIGEM final
-const CEP_ORIGEM = '01001000'; 
+const CEP_ORIGEM = '01001000'; // Substitua pelo seu CEP de origem real
 
-// URL PÚBLICO DO SEU BACK-END NO RENDER
-// 🚨 MUDANÇA CRÍTICA: Definindo a URL base da API
-const RENDER_API_BASE_URL = 'https://camiseteria-backend.onrender.com';
-
-// VALORES AJUSTADOS PARA GARANTIR COMPATIBILIDADE COM REGRAS MÍNIMAS DA API
 const DADOS_PRODUTO_UNITARIO = {
-    peso: 0.5,       // 500g
-    largura: 20,     // cm
-    altura: 10,      // cm
-    comprimento: 30, // cm
-    insurance: 100.00, // Valor unitário de seguro
+    peso: 0.5,       
+    largura: 20,     
+    altura: 10,      
+    comprimento: 30, 
+    insurance: 100.00, 
 };
 
-// -----------------------------------------------------
-
 function Simulation() {
-    // --- Estados para Armazenar Dados e Opções ---
     const [cep, setCep] = useState('');
     const [quantidade, setQuantidade] = useState(1);
     const [servico, setServico] = useState(''); 
     
-    // Resultados e status
     const [endereco, setEndereco] = useState(null); 
     const [valorFrete, setValorFrete] = useState(null);
     const [prazoEntrega, setPrazoEntrega] = useState(null);
     const [erro, setErro] = useState('');
     const [carregando, setCarregando] = useState(false); 
 
-    // --- FUNÇÃO BUSCA ViaCEP ---
+    // --- BUSCA ENDEREÇO (ViaCEP) ---
     const buscarEndereco = async (cepParaBuscar) => {
         const cepLimpo = cepParaBuscar.replace(/\D/g, '');
         if (cepLimpo.length !== 8) {
@@ -49,25 +43,19 @@ function Simulation() {
         return data;
     };
     
-    // --- FUNÇÃO DE CÁLCULO Melhor Envio (Corrigida) ---
+    // --- CÁLCULO DE FRETE (API PRÓPRIA) ---
     const calcularFreteMelhorEnvio = async (cepDestino, servicoEscolhido, qtd) => {
-        
-        // 1. CALCULAR DIMENSÕES TOTAIS E VALORES
         const pesoTotal = DADOS_PRODUTO_UNITARIO.peso * qtd;
         const valorSeguroTotal = DADOS_PRODUTO_UNITARIO.insurance * qtd;
 
-        // 2. CRIAR ARRAY DE PACOTES (A API de cotação espera um array de pacotes/caixas)
-        // Enviamos um único pacote representando a remessa completa.
         const packagesArray = [{
-            // Usamos as dimensões do produto unitário como as dimensões mínimas do pacote.
             height: DADOS_PRODUTO_UNITARIO.altura,
             width: DADOS_PRODUTO_UNITARIO.largura,
             length: DADOS_PRODUTO_UNITARIO.comprimento,
             weight: pesoTotal,
-            insurance_value: valorSeguroTotal, // <-- Chave correta para o valor total de seguro
+            insurance_value: valorSeguroTotal,
         }];
         
-        // 3. CONSTRUIR O BODY DA REQUISIÇÃO
         const bodyParaEnvio = {
             from: { postal_code: CEP_ORIGEM },
             to: { postal_code: cepDestino.replace(/\D/g, '') },
@@ -76,12 +64,11 @@ function Simulation() {
                 receipt: false,
                 own_hand: false,
             },
-            selected_service: servicoEscolhido.toUpperCase() // Envia o nome (PAC/SEDEX)
+            selected_service: servicoEscolhido.toUpperCase()
         };
         
-        // 4. Chamada ao seu servidor intermediário (AGORA COM O URL DO RENDER)
-        // 🚨 MUDANÇA CRÍTICA: Usando o URL completo
-        const response = await fetch(`${RENDER_API_BASE_URL}/api/frete`, { 
+        // Chamada usando a URL base dinâmica
+        const response = await fetch(`${API_BASE_URL}/api/frete`, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyParaEnvio),
@@ -95,15 +82,12 @@ function Simulation() {
                 delivery: data.delivery || 'Prazo não informado',
             };
         } else {
-            // Tratamento de erro vindo do Back-end
-            throw new Error(data.message || 'Erro desconhecido ao calcular frete. Verifique o console.');
+            throw new Error(data.message || 'Erro ao calcular frete. O servidor pode estar iniciando.');
         }
     };
 
-    // --- HANDLER PRINCIPAL (Submissão do Formulário) ---
     const handleSubmit = async (e) => {
         e.preventDefault(); 
-        
         setCarregando(true);
         setEndereco(null);
         setValorFrete(null);
@@ -117,80 +101,58 @@ function Simulation() {
         }
 
         try {
-            // Buscar Endereço 
             const dadosEndereco = await buscarEndereco(cep);
             setEndereco(dadosEndereco);
             
-            // Calcular Frete
             const resultadoFrete = await calcularFreteMelhorEnvio(dadosEndereco.cep, servico, quantidade);
             setValorFrete(resultadoFrete.valor);
             setPrazoEntrega(resultadoFrete.delivery);
 
         } catch (error) {
             setErro(error.message);
-            setEndereco(null); 
-            setValorFrete(null);
-            setPrazoEntrega(null);
-
         } finally {
             setCarregando(false);
         }
     };
 
-    // --- FUNÇÃO PARA WHATSAPP ---
     const handleWhatsApp = () => {
         if (!endereco || !valorFrete || !prazoEntrega) return;
 
         const nomeServico = servico.toUpperCase();
         const valorFormatado = valorFrete.replace('.', ',');
-        const mensagemBase = `Olá! Gostaria de fazer o pedido. Minha simulação de frete deu o seguinte resultado:\n\n` +
+        const mensagemBase = `Olá! Gostaria de fazer o pedido. Minha simulação de frete:\n\n` +
                              `*Total de Produtos:* ${quantidade}\n` +
                              `*Serviço:* ${nomeServico}\n` +
                              `*CEP de Destino:* ${cep}\n` +
                              `*Endereço:* ${endereco.logradouro}, ${endereco.bairro} - ${endereco.localidade}/${endereco.uf}\n` +
                              `*Prazo:* ${prazoEntrega}\n` +
-                             `*Valor Total do Frete:* R$ ${valorFormatado}\n\n` +
-                             `Podemos prosseguir com o pagamento?`;
+                             `*Valor Total do Frete:* R$ ${valorFormatado}`;
 
-        // Número de WhatsApp da loja formatado (DDI+DDD+Número, sem caracteres)
         const numeroLoja = '558591651212'; 
         const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroLoja}&text=${encodeURIComponent(mensagemBase)}`;
-        
         window.open(urlWhatsApp, '_blank');
     };
 
-    // --- RENDERIZAÇÃO ---
     return (
         <div id='frete' className={styles.simulation}>
-            
-            <div className={styles.imgFrete}>
-            </div>
-
             <div className={styles.formFrete}>
                 <h1>Simular Frete:</h1>
-
-                {/* FORMULÁRIO COMPLETO */}
                 <form onSubmit={handleSubmit} className={styles.formCalculo}>
-                    
-                    {/* Input CEP */}
                     <div className={styles.cep}>
-                        <label htmlFor="cep">CEP:</label>
+                        <label>CEP:</label>
                         <input
                           type='text'
-                          placeholder='Digite seu CEP'
+                          placeholder='00000000'
                           value={cep} 
-                          onChange={(e) => setCep(e.target.value.replace(/(\D)/g, ''))} // Limpa não dígitos
+                          onChange={(e) => setCep(e.target.value.replace(/\D/g, ''))} 
                           maxLength={8} 
                           required
                         />
                     </div>
 
-
-                    {/* Seleção de Quantidade */}
                     <div className={styles.inputQtd}>
-                        <label htmlFor="quantidade">Quantidade de produtos:</label>
+                        <label>Quantidade:</label>
                         <input
-                            id="quantidade"
                             type='number'
                             min='1'
                             value={quantidade}
@@ -199,78 +161,33 @@ function Simulation() {
                         />
                     </div>
 
-                    {/* Forma de Envio */}
-                    <div>
-                        <label >
-                            Forma de envio:
+                    <div className={styles.opcoesEnvio}>
+                        <label>
+                            <input type="radio" value="pac" checked={servico === 'pac'} onChange={() => setServico('pac')} /> PAC
                         </label>
-
-                        <div className={styles.opcoesEnvio}>
-                            <label>
-                                <input 
-                                    type="radio" 
-                                    value="pac" 
-                                    checked={servico === 'pac'}
-                                    onChange={() => setServico('pac')}
-                                    required
-                                />
-                                PAC
-                            </label>
-                            <label>
-                                <input 
-                                    type="radio" 
-                                    value="sedex" 
-                                    checked={servico === 'sedex'}
-                                    onChange={() => setServico('sedex')}
-                                    required
-                                />
-                                SEDEX
-                            </label>
-                        </div>
-
+                        <label>
+                            <input type="radio" value="sedex" checked={servico === 'sedex'} onChange={() => setServico('sedex')} /> SEDEX
+                        </label>
                     </div>
 
-                    {/* Botão Pesquisa */}
                     <button type='submit' disabled={carregando || !cep || !servico}>
                         {carregando ? 'Calculando...' : 'Calcular Frete'}
                     </button>
                 </form>
 
-                {/* RESULTADO E ERRO */}
                 <div className={styles.resultado}>
-                    
                     {erro && <p className={styles.erroCep}>**Erro:** {erro}</p>}
-
                     {endereco && valorFrete && !carregando && (
                         <div className={styles.calculoFrete}>
-                            
-                            <h3>Resultado do Cálculo:</h3>
-                            
-                            {/* ENDEREÇO & PRODUTOS */}
-                            <p className={styles.endereco}>
-                                **{quantidade} produto(s)** via **{servico.toUpperCase()}** para: <br/>
-                                {endereco.logradouro}, {endereco.bairro} - {endereco.localidade}/{endereco.uf}
-                            </p>
-                            
-                            {/* PRAZO */}
-                            <p className={styles.prazo}>
-                                Prazo estimado: **{prazoEntrega}**
-                            </p>
-                            
-                            {/* VALOR FINAL */}
+                            <h3>Resultado:</h3>
+                            <p>{quantidade} produto(s) via {servico.toUpperCase()} para {endereco.localidade}/{endereco.uf}</p>
+                            <p>Prazo: {prazoEntrega}</p>
                             <h2>R$ {valorFrete.replace('.', ',')}</h2> 
-                            
-                            {/* Botão WhatsApp */}
-                            <button 
-                                type='button' 
-                                className={styles.whatsappButton}
-                                onClick={handleWhatsApp}
-                            >
-                                💬 Encaminhar orçamento via WhatsApp
+                            <button onClick={handleWhatsApp} className={styles.whatsappButton}>
+                                💬 Pedir via WhatsApp
                             </button>
                         </div>
                     )}
-
                 </div>
             </div>
         </div>

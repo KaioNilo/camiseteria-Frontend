@@ -5,7 +5,7 @@ function Footer() {
     return (
         <footer className={styles.footer}>
 
-            <img className={styles.logoFooter} src="./src/assets/LogoBranca.png" alt="" />
+            <img className={styles.logoFooter} src="https://res.cloudinary.com/dqk535bkf/image/upload/v1765913112/LogoBranca_hfdbiq.png" alt="" />
 
             <span>
                     ® Oliverira Camiseteria

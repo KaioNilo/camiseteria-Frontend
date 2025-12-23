@@ -5,13 +5,12 @@ function ProductCard({ id, name, price, size, image }) {
     
     
     // Cálculo dos Preços
-    // PREÇO <span>
     const numericPrice = price ? parseFloat(price) : 0;
 
     // PREÇO COM DESCONTO
     const originalPrice = numericPrice / 0.70;
 
-    // PREÇO <span>
+    // PREÇO
     const formattedPrice = price
         ? new Intl.NumberFormat('pt-BR', {
             style: 'currency',

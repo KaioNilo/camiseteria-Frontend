@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import styles from './Simulation.module.css';
 
-// --- CONFIGURAÇÃO DE AMBIENTE ---
-// O Vite utiliza 'import.meta.env' para carregar variáveis do arquivo .env
-// Se a variável não estiver definida, ele usará o localhost como fallback.
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://camiseteria-backend.onrender.com';
 
-// --- DADOS FIXOS DA EMPRESA E DO PRODUTO ---
-const CEP_ORIGEM = '01001000'; // Substitua pelo seu CEP de origem real
+const CEP_ORIGEM = '01001000';
 
 const DADOS_PRODUTO_UNITARIO = {
     peso: 0.5,       
@@ -28,7 +24,7 @@ function Simulation() {
     const [erro, setErro] = useState('');
     const [carregando, setCarregando] = useState(false); 
 
-    // --- BUSCA ENDEREÇO (ViaCEP) ---
+    // --- BUSCA ENDEREÇO ---
     const buscarEndereco = async (cepParaBuscar) => {
         const cepLimpo = cepParaBuscar.replace(/\D/g, '');
         if (cepLimpo.length !== 8) {
@@ -43,7 +39,7 @@ function Simulation() {
         return data;
     };
     
-    // --- CÁLCULO DE FRETE (API PRÓPRIA) ---
+    // --- CÁLCULO DE FRETE ---
     const calcularFreteMelhorEnvio = async (cepDestino, servicoEscolhido, qtd) => {
         const pesoTotal = DADOS_PRODUTO_UNITARIO.peso * qtd;
         const valorSeguroTotal = DADOS_PRODUTO_UNITARIO.insurance * qtd;
@@ -67,7 +63,7 @@ function Simulation() {
             selected_service: servicoEscolhido.toUpperCase()
         };
         
-        // Chamada usando a URL base dinâmica
+        // Chamada URL base dinâmica
         const response = await fetch(`${API_BASE_URL}/api/frete`, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

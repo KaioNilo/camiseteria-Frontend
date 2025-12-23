@@ -1,32 +1,27 @@
-import ProductCard from "../ProductCard/index.jsx"; 
+import ProductCard from "../ProductCard/index.jsx";
 import styles from './ProductSection.module.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Grid, Navigation } from 'swiper/modules';
+import { EffectCoverflow, Pagination, Navigation } from 'swiper/modules';
+
 import 'swiper/css';
-import 'swiper/css/grid';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { useEffect, useState, useRef } from "react"; 
 
+import { useEffect, useState, useRef } from "react";
 
-function ProductSection({ }) {
+const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '');
 
-    const [ products, setProducts ] = useState([]);
-
-    // Setas
+function ProductSection() {
+    const [products, setProducts] = useState([]);
     const prevRef = useRef(null);
     const nextRef = useRef(null);
 
     useEffect(() => {
         const buscarProdutos = async () => {
             try {
-                const API_URL = 'http://localhost:5000/api/produtos'; 
-                
-                const response = await fetch(API_URL);
-
-                if (!response.ok) {
-                    throw new Error(`Erro HTTP! Status: ${response.status}`);
-                }
-                
+                const response = await fetch(`${API_BASE_URL}/api/produtos`);
+                if (!response.ok) throw new Error(`Erro HTTP! Status: ${response.status}`);
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {
@@ -37,68 +32,59 @@ function ProductSection({ }) {
     }, []);
 
     return (
-
         <section id="produtos" className={styles.productSection}>
-            <h1>Nossos Produtos</h1>
-            
+            <h1 className={styles.heading}>Nossos Produtos</h1>
+           
             {products.length > 0 ? (
-                
-                <div className={styles.swiperWrapper}> 
-                    
-                    <div 
-                        ref={prevRef} 
-                        className={`${styles.customNavButton} swiper-button-prev`} 
-                    />
-                    <div 
-                        ref={nextRef} 
-                        className={`${styles.customNavButton} swiper-button-next`} 
-                    />
-
+                <div className={styles.container}>
                     <Swiper
-                        className={styles.cardsSwiper}
-                        modules={[Grid, Navigation]}
-                        slidesPerView={4} 
-                        grid={{
-                            rows: 2, 
-                            fill: 'row',
+                        effect={'coverflow'}
+                        grabCursor={true}
+                        centeredSlides={true}
+                        loop={true}
+                        slidesPerView={'auto'}
+                        coverflowEffect={{
+                            rotate: 0,
+                            stretch: 0,
+                            depth: 100,
+                            modifier: 2.5,
+                            slideShadows: false,
                         }}
-
-                        // Navegação Customizada
-                        onInit={(swiper) => {
-                            // Conecta as Refs com a navegação do Swiper
+                        pagination={{ el: `.${styles.swiperPagination}`, clickable: true }}
+                        navigation={{
+                            nextEl: nextRef.current,
+                            prevEl: prevRef.current,
+                        }}
+                        onBeforeInit={(swiper) => {
                             swiper.params.navigation.prevEl = prevRef.current;
                             swiper.params.navigation.nextEl = nextRef.current;
-                            swiper.navigation.init();
-                            swiper.navigation.update();
                         }}
-                        navigation={{
-                            prevEl: prevRef.current,
-                            nextEl: nextRef.current,
-                            enabled: true,
-                        }}
+                        modules={[EffectCoverflow, Pagination, Navigation]}
+                        className={styles.swiper_container}
                     >                        
-                        {
-                            products.map((prod, index) => {
+                        {products.map((prod, index) => (
+                            prod?.name && (
+                                <SwiperSlide key={prod._id || index} className={styles.swiperSlide}>
+                                    <ProductCard
+                                        name={prod.name}
+                                        price={prod.price}
+                                        image={prod.image}
+                                        size={prod.size}
+                                        productId={prod._id}
+                                    />
+                                </SwiperSlide>
+                            )
+                        ))}
 
-                                if (!prod || !prod.name) {
-                                    return null;
-                                }
-                                
-                                return (
-                                    <SwiperSlide key={prod._id || index}> 
-                                        <ProductCard 
-                                            key={prod._id || index} 
-                                            name={prod.name} 
-                                            price={prod.price} 
-                                            image={prod.image} 
-                                            size={prod.size} 
-                                            productId={prod._id}
-                                        />
-                                    </SwiperSlide>
-
-                                );
-                            })
-                        }
+                        <div className={styles.sliderControler}>
+                            <div ref={prevRef} className={`${styles.sliderArrow} swiper-button-prev`}>
+                                <ion-icon name="arrow-back-outline"></ion-icon>
+                            </div>
+                            <div className={`${styles.swiperPagination} swiper-pagination`}></div>
+                            <div ref={nextRef} className={`${styles.sliderArrow} swiper-button-next`}>
+                                <ion-icon name="arrow-forward-outline"></ion-icon>
+                            </div>
+                        </div>
                     </Swiper>
                 </div>
             ) : (

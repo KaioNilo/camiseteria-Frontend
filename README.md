@@ -1,16 +1,30 @@
-# React + Vite
+🚀 Oliveira Camiseteria - Frontend
+Este projeto consiste em uma landing page para uma camiseteria, desenvolvida em React, Node.js e MongoDB, com foco em apresentar os produtos da loja e facilitar o contato com os clientes. 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Além do CRUD completo para gerenciamento de camisetas (nome, preço, tamanhos e imagens), a aplicação permite ao usuário simular o frete via API do Melhor Envio, retornando valores de PAC e SEDEX com prazo de entrega. O retorno imediato do frete é a solução que trata a dor principal da cliente, já que o frete era feito de forma manual. Para otimizar o desempenho, os cálculos são armazenados em cache e no banco de dados.
 
-Currently, two official plugins are available:
+Também há a integração com o WhatsApp da loja, onde o cliente pode, com um clique, enviar automaticamente uma mensagem contendo o resultado da simulação, tornando o processo mais ágil, simples e aumentando as chances de conversão.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Interface moderna e responsiva desenvolvida para a Oliveira Camiseteria, permite a visualização de produtos, simulação de frete e redirecionamento de contato para a loja.
 
-## React Compiler
+🛠️ Tecnologias Utilizadas
+React.js (Vite)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Swiper.js (Carrossel de produtos)
 
-## Expanding the ESLint configuration
+CSS Modules (Estilização isolada)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Lucide React (Ícones)
+
+Axios (Consumo de API)
+
+🌐 Deploy
+Frontend: oliveiracamiseteria.vercel.app
+
+Backend (API): camiseteria-backend.onrender.com
+
+📂 Estrutura de Pastas Principal
+/src/components: Componentes reutilizáveis (ProductCard, Footer, header, etc).
+
+/src/assets: Imagens e logotipos oficiais.
+

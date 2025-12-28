@@ -37,7 +37,7 @@ function Simulation() {
             setErro('');
         } catch (err) {
             setEndereco(null);
-            setErro('Erro ao procurar endereço. Verifique o CEP.');
+            setErro('Erro ao procurar endereço.');
         }
     };
 
@@ -77,7 +77,7 @@ function Simulation() {
     };
 
     const handleWhatsApp = () => {
-        const msg = `Olá! Gostaria de encomendar ${quantidade} camiseta(s) para o CEP ${cep} (${endereco?.localidade}). Valor do frete ${servico.toUpperCase()}: R$ ${valorFrete}`;
+        const msg = `Olá! Gostaria de encomendar ${quantidade} camiseta(s) para o CEP ${cep}. Valor do frete ${servico.toUpperCase()}: R$ ${valorFrete}`;
         window.open(`https://wa.me/message/3HHV5FDTMVOTM1?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
@@ -92,8 +92,11 @@ function Simulation() {
                             type="text" 
                             value={cep} 
                             onChange={(e) => {
-                                setCep(e.target.value);
-                                if(e.target.value.length === 9) buscarEndereco(e.target.value);
+                                const novoValor = e.target.value;
+                                setCep(novoValor);
+                                if (novoValor.replace(/\D/g, '').length === 8) {
+                                    buscarEndereco(novoValor);
+                                }
                             }}
                             placeholder="00000-000"
                         />
@@ -101,12 +104,7 @@ function Simulation() {
 
                     <div className={styles.inputQtd}>
                         <label>Quantidade:</label>
-                        <input 
-                            type="number" 
-                            min="1" 
-                            value={quantidade} 
-                            onChange={(e) => setQuantidade(e.target.value)} 
-                        />
+                        <input type="number" min="1" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
                     </div>
 
                     <div className={styles.opcoesEnvio}>

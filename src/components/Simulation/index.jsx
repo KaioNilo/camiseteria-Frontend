@@ -3,7 +3,7 @@ import styles from './Simulation.module.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://camiseteria-backend.onrender.com';
 
-const CEP_ORIGEM = '01001000';
+const CEP_ORIGEM = '60191335';
 
 const DADOS_PRODUTO_UNITARIO = {
     peso: 0.5,       

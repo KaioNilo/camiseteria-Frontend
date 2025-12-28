@@ -23,8 +23,8 @@ function Header() {
                 <a href="#produtos">Produtos</a>
                 <a href="#sobreNos">Sobre Nós</a>
                 <a href="#frete">Frete</a>
-                <a href="#" className={styles.social}><FaInstagram /></a>
-                <a href="#" className={styles.social}><FaWhatsapp /></a>                
+                <a href="https://www.instagram.com/oliveiracamiseteria/" className={styles.social}><FaInstagram /></a>
+                <a href="wa.me/message/3HHV5FDTMVOTM1" className={styles.social}><FaWhatsapp /></a>                
             </nav>
 
             <div className={styles['hamburger-icon']} onClick={toggleMenu}>

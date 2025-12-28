@@ -12,10 +12,10 @@ function Footer() {
             </span>
 
             <div className={styles.icons}>
-                <a href="#">
+                <a href="https://www.instagram.com/oliveiracamiseteria/">
                     <FaInstagram />
                 </a>
-                <a href="#">
+                <a href="wa.me/message/3HHV5FDTMVOTM1">
                     <FaWhatsapp />
                 </a>
             </div>      

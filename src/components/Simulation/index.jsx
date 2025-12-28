@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import styles from './Simulation.module.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://camiseteria-backend.onrender.com';
@@ -24,159 +25,108 @@ function Simulation() {
     const [erro, setErro] = useState('');
     const [carregando, setCarregando] = useState(false); 
 
-    // --- BUSCA ENDEREÇO ---
     const buscarEndereco = async (cepParaBuscar) => {
         const cepLimpo = cepParaBuscar.replace(/\D/g, '');
-        if (cepLimpo.length !== 8) {
-            throw new Error('O CEP deve conter 8 dígitos.');
-        }
-        const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-        const data = await response.json();
-
-        if (data.erro) {
-            throw new Error('CEP não encontrado ou inválido.');
-        }
-        return data;
-    };
-    
-    // --- CÁLCULO DE FRETE ---
-    const calcularFreteMelhorEnvio = async (cepDestino, servicoEscolhido, qtd) => {
-        const pesoTotal = DADOS_PRODUTO_UNITARIO.peso * qtd;
-        const valorSeguroTotal = DADOS_PRODUTO_UNITARIO.insurance * qtd;
-
-        const packagesArray = [{
-            height: DADOS_PRODUTO_UNITARIO.altura,
-            width: DADOS_PRODUTO_UNITARIO.largura,
-            length: DADOS_PRODUTO_UNITARIO.comprimento,
-            weight: pesoTotal,
-            insurance_value: valorSeguroTotal,
-        }];
-        
-        const bodyParaEnvio = {
-            from: { postal_code: CEP_ORIGEM },
-            to: { postal_code: cepDestino.replace(/\D/g, '') },
-            packages: packagesArray,
-            options: {
-                receipt: false,
-                own_hand: false,
-            },
-            selected_service: servicoEscolhido.toUpperCase()
-        };
-        
-        // Chamada URL base dinâmica
-        const response = await fetch(`${API_BASE_URL}/api/frete`, { 
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(bodyParaEnvio),
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.valor) {
-            return {
-                valor: data.valor,
-                delivery: data.delivery || 'Prazo não informado',
-            };
-        } else {
-            throw new Error(data.message || 'Erro ao calcular frete. O servidor pode estar iniciando.');
-        }
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault(); 
-        setCarregando(true);
-        setEndereco(null);
-        setValorFrete(null);
-        setPrazoEntrega(null);
-        setErro('');
-
-        if (!servico) {
-            setErro('Selecione uma forma de envio (PAC ou SEDEX).');
-            setCarregando(false);
-            return;
-        }
+        if (cepLimpo.length !== 8) return;
 
         try {
-            const dadosEndereco = await buscarEndereco(cep);
-            setEndereco(dadosEndereco);
-            
-            const resultadoFrete = await calcularFreteMelhorEnvio(dadosEndereco.cep, servico, quantidade);
-            setValorFrete(resultadoFrete.valor);
-            setPrazoEntrega(resultadoFrete.delivery);
+            const res = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+            if (res.data.erro) throw new Error('CEP não encontrado.');
+            setEndereco(res.data);
+            setErro('');
+        } catch (err) {
+            setEndereco(null);
+            setErro('Erro ao procurar endereço. Verifique o CEP.');
+        }
+    };
 
-        } catch (error) {
-            setErro(error.message);
+    const simularFrete = async (e) => {
+        e.preventDefault();
+        setCarregando(true);
+        setErro('');
+        setValorFrete(null);
+
+        try {
+            const bodyParaEnvio = {
+                from: { postal_code: CEP_ORIGEM },
+                to: { postal_code: cep.replace(/\D/g, '') },
+                packages: [
+                    {
+                        weight: DADOS_PRODUTO_UNITARIO.peso * quantidade,
+                        width: DADOS_PRODUTO_UNITARIO.largura,
+                        height: DADOS_PRODUTO_UNITARIO.altura,
+                        length: DADOS_PRODUTO_UNITARIO.comprimento,
+                    }
+                ],
+                selected_service: servico
+            };
+
+            const response = await axios.post(`${API_BASE_URL}/api/frete`, bodyParaEnvio);
+
+            if (response.data.valor) {
+                setValorFrete(response.data.valor);
+                setPrazoEntrega(response.data.delivery);
+            }
+        } catch (err) {
+            console.error("Erro na simulação:", err);
+            setErro(err.response?.data?.message || 'Erro ao calcular frete.');
         } finally {
             setCarregando(false);
         }
     };
 
     const handleWhatsApp = () => {
-        if (!endereco || !valorFrete || !prazoEntrega) return;
-
-        const nomeServico = servico.toUpperCase();
-        const valorFormatado = valorFrete.replace('.', ',');
-        const mensagemBase = `Olá! Gostaria de fazer o pedido. Minha simulação de frete:\n\n` +
-                             `*Total de Produtos:* ${quantidade}\n` +
-                             `*Serviço:* ${nomeServico}\n` +
-                             `*CEP de Destino:* ${cep}\n` +
-                             `*Endereço:* ${endereco.logradouro}, ${endereco.bairro} - ${endereco.localidade}/${endereco.uf}\n` +
-                             `*Prazo:* ${prazoEntrega}\n` +
-                             `*Valor Total do Frete:* R$ ${valorFormatado}`;
-
-        const numeroLoja = '558591651212'; 
-        const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroLoja}&text=${encodeURIComponent(mensagemBase)}`;
-        window.open(urlWhatsApp, '_blank');
+        const msg = `Olá! Gostaria de encomendar ${quantidade} camiseteria(s) para o CEP ${cep} (${endereco?.localidade}). Valor do frete ${servico.toUpperCase()}: R$ ${valorFrete}`;
+        window.open(`https://wa.me/5585992850904?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
     return (
-        <div id='frete' className={styles.simulation}>
-            <div className={styles.formFrete}>
-                <h1>Simular Frete:</h1>
-                <form onSubmit={handleSubmit} className={styles.formCalculo}>
-                    <div className={styles.cep}>
-                        <label>CEP:</label>
-                        <input
-                          type='text'
-                          placeholder='00000000'
-                          value={cep} 
-                          onChange={(e) => setCep(e.target.value.replace(/\D/g, ''))} 
-                          maxLength={8} 
-                          required
+        <div id="frete" className={styles.containerFrete}>
+            <div className={styles.card}>
+                <h2>Simular Frete e Entrega</h2>
+                <form onSubmit={simularFrete}>
+                    <div className={styles.inputGroup}>
+                        <label>Teu CEP:</label>
+                        <input 
+                            type="text" 
+                            value={cep} 
+                            onChange={(e) => {
+                                setCep(e.target.value);
+                                if(e.target.value.length === 9) buscarEndereco(e.target.value);
+                            }}
+                            placeholder="00000-000"
                         />
                     </div>
 
-                    <div className={styles.inputQtd}>
-                        <label>Quantidade:</label>
-                        <input
-                            type='number'
-                            min='1'
-                            value={quantidade}
-                            onChange={(e) => setQuantidade(Math.max(1, parseInt(e.target.value) || 1))}
-                            required
+                    <div className={styles.inputGroup}>
+                        <label>Quantidade de Camisetes:</label>
+                        <input 
+                            type="number" 
+                            min="1" 
+                            value={quantidade} 
+                            onChange={(e) => setQuantidade(e.target.value)} 
                         />
                     </div>
 
-                    <div className={styles.opcoesEnvio}>
+                    <div className={styles.radioGroup}>
                         <label>
-                            <input type="radio" value="pac" checked={servico === 'pac'} onChange={() => setServico('pac')} /> PAC
+                            <input type="radio" name="servico" value="pac" onChange={() => setServico('pac')} /> PAC
                         </label>
                         <label>
-                            <input type="radio" value="sedex" checked={servico === 'sedex'} onChange={() => setServico('sedex')} /> SEDEX
+                            <input type="radio" name="servico" value="sedex" onChange={() => setServico('sedex')} /> SEDEX
                         </label>
                     </div>
 
                     <button type='submit' disabled={carregando || !cep || !servico}>
-                        {carregando ? 'Calculando...' : 'Calcular Frete'}
+                        {carregando ? 'A calcular...' : 'Calcular Frete'}
                     </button>
                 </form>
 
                 <div className={styles.resultado}>
-                    {erro && <p className={styles.erroCep}>**Erro:** {erro}</p>}
-                    {endereco && valorFrete && !carregando && (
+                    {erro && <p className={styles.erroCep}>{erro}</p>}
+                    {valorFrete && !carregando && (
                         <div className={styles.calculoFrete}>
                             <h3>Resultado:</h3>
-                            <p>{quantidade} produto(s) via {servico.toUpperCase()} para {endereco.localidade}/{endereco.uf}</p>
                             <p>Prazo: {prazoEntrega}</p>
                             <h2>R$ {valorFrete.replace('.', ',')}</h2> 
                             <button onClick={handleWhatsApp} className={styles.whatsappButton}>

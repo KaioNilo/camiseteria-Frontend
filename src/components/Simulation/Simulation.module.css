@@ -18,7 +18,8 @@
   flex-direction: column;
   font-size: 22px;
   color: #FFF5ED;
-  padding: 40px;
+  padding: 50px 40px 30px 40px;
+  gap: 15px;
 }
 
 .formFrete h1 {
@@ -29,6 +30,12 @@
 .formFrete label {
   font-size: 18px;
   letter-spacing: 1px;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 
 .cep {
@@ -106,11 +113,11 @@
 }
 
 .resultado {
-  margin: 30px 0;
+  margin: 15px 0;
   display: flex;
   flex-direction: column;
-  font-size: 18px;
-  letter-spacing: 1px;
+  font-size: 15px;
+  letter-spacing: 0.8px;
 }
 
 .endereco{

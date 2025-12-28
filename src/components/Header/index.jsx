@@ -24,7 +24,7 @@ function Header() {
                 <a href="#sobreNos">Sobre Nós</a>
                 <a href="#frete">Frete</a>
                 <a href="https://www.instagram.com/oliveiracamiseteria/" className={styles.social}><FaInstagram /></a>
-                <a href="wa.me/message/3HHV5FDTMVOTM1" className={styles.social}><FaWhatsapp /></a>                
+                <a href="https://wa.me/message/3HHV5FDTMVOTM1" className={styles.social}><FaWhatsapp /></a>                
             </nav>
 
             <div className={styles['hamburger-icon']} onClick={toggleMenu}>
@@ -36,8 +36,8 @@ function Header() {
                 <a href="#produtos" onClick={toggleMenu}>Produtos</a>
                 <a href="#frete" onClick={toggleMenu}>Frete</a>
                 <a href="#sobreNos" onClick={toggleMenu}>Sobre nós</a>
-                <a href="#" className={styles.social}><FaInstagram /></a>
-                <a href="#" className={styles.social}><FaWhatsapp /></a>
+                <a href="https://www.instagram.com/oliveiracamiseteria/" className={styles.social}><FaInstagram /></a>
+                <a href="https://wa.me/message/3HHV5FDTMVOTM1" className={styles.social}><FaWhatsapp /></a>
             </div>
         </header>
     );

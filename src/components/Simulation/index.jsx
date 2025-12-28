@@ -76,17 +76,17 @@ function Simulation() {
     };
 
     const handleWhatsApp = () => {
-        const msg = `Olá! Gostaria de encomendar ${quantidade} camiseteria(s) para o CEP ${cep} (${endereco?.localidade}). Valor do frete ${servico.toUpperCase()}: R$ ${valorFrete}`;
-        window.open(`https://wa.me/5585992850904?text=${encodeURIComponent(msg)}`, '_blank');
+        const msg = `Olá! Gostaria de encomendar ${quantidade} camiseta(s) para o CEP ${cep} (${endereco?.localidade}). Valor do frete ${servico.toUpperCase()}: R$ ${valorFrete}`;
+        window.open(`https://wa.me/message/3HHV5FDTMVOTM1?text=${encodeURIComponent(msg)}`, '_blank');
     };
 
     return (
-        <div id="frete" className={styles.containerFrete}>
-            <div className={styles.card}>
+        <div id="frete" className={styles.simulation}>
+            <div className={styles.formFrete}>
                 <h2>Simular Frete e Entrega</h2>
-                <form onSubmit={simularFrete}>
-                    <div className={styles.inputGroup}>
-                        <label>Teu CEP:</label>
+                <form onSubmit={simularFrete} className={styles.formulario}>
+                    <div className={styles.cep}>
+                        <label>Seu CEP:</label>
                         <input 
                             type="text" 
                             value={cep} 
@@ -98,8 +98,8 @@ function Simulation() {
                         />
                     </div>
 
-                    <div className={styles.inputGroup}>
-                        <label>Quantidade de Camisetes:</label>
+                    <div className={styles.inputQtd}>
+                        <label>Quantidade:</label>
                         <input 
                             type="number" 
                             min="1" 
@@ -108,7 +108,7 @@ function Simulation() {
                         />
                     </div>
 
-                    <div className={styles.radioGroup}>
+                    <div className={styles.opcoesEnvio}>
                         <label>
                             <input type="radio" name="servico" value="pac" onChange={() => setServico('pac')} /> PAC
                         </label>
@@ -118,7 +118,7 @@ function Simulation() {
                     </div>
 
                     <button type='submit' disabled={carregando || !cep || !servico}>
-                        {carregando ? 'A calcular...' : 'Calcular Frete'}
+                        {carregando ? 'Calculando...' : 'Calcular Frete'}
                     </button>
                 </form>
 

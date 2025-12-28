@@ -2,9 +2,9 @@ import styles from './Banner.module.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade, Autoplay, Pagination } from 'swiper/modules';
 
-const Banner1 = "https://res.cloudinary.com/dqk535bkf/image/upload/v1766873676/Banner_1_ty8hdv.png";
-const Banner2 = "https://res.cloudinary.com/dqk535bkf/image/upload/v1766873676/Banner_2_evmvrw.png";
-const Banner3 = "https://res.cloudinary.com/dqk535bkf/image/upload/v1766873676/Banner_3_kqsykk.png";
+const Banner1 = "https://res.cloudinary.com/dqk535bkf/image/upload/v1766932250/Banner_1_ty8hdv.png";
+const Banner2 = "https://res.cloudinary.com/dqk535bkf/image/upload/v1766932507/Banner_2_evmvrw.png";
+const Banner3 = "https://res.cloudinary.com/dqk535bkf/image/upload/v1766932273/Banner_3_kqsykk.png";
 
 function Banner() {
     const data = [

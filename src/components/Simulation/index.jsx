@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './Simulation.module.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://camiseteria-backend.onrender.com';
+const BASE_URL_ENV = import.meta.env.VITE_API_URL || 'https://camiseteria-backend.onrender.com';
+const API_BASE_URL = BASE_URL_ENV.replace(/\/$/, '');
 
 const CEP_ORIGEM = '60191335';
 

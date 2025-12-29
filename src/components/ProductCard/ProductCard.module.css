@@ -25,7 +25,7 @@
     box-shadow: 0px 4px 4px rgba(85, 2, 82, 0.15);
 }
 
-h5 {
+.nameProduct {
     font-size: 20px;
     font-weight: medium;
     text-transform: uppercase;
@@ -39,7 +39,7 @@ h5 {
     justify-content: space-between;
 }
 
-p {
+.originalPrice {
     font-size: 13px;
     font-weight: 600;
 }
@@ -56,7 +56,7 @@ p {
     align-items: self-start;
 }
 
-.price h3 {
+.finalPrice {
     font-size: 25px;
     font-weight: bold;
 }

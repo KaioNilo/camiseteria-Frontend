@@ -18,8 +18,8 @@
   flex-direction: column;
   font-size: 22px;
   color: #FFF5ED;
-  padding: 50px 40px 30px 40px;
-  gap: 15px;
+  padding:40px 30px;
+  gap: 10px;
 }
 
 .formFrete h1 {
@@ -113,23 +113,26 @@
 }
 
 .resultado {
-  margin: 15px 0;
   display: flex;
-  flex-direction: column;
-  font-size: 15px;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
 }
 
-.endereco{
-  margin-bottom: 20px;
-  display: flex;
+.tituloResult{
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.endereco p {
-  max-width: 410px;
+.prazoEntrega{
+  font-size: 14px;
+  font-weight: normal;
 }
 
-button {
+.valorFrete {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.botaoCalcular {
   height: 40px;
   width: 250px;
   border: none;
@@ -139,10 +142,9 @@ button {
   font-size: 18px;
   letter-spacing: 1px;
   cursor: pointer;
-  margin-top: 7px;
 }
 
-button:active {
+.botaoCalcular:active {
   background-color: #FAC697;
   border: 2px solid #550252;
   color: #550252;
@@ -150,9 +152,37 @@ button:active {
   transition: 0.5s;
 }
 
-button:hover {
+.botaoCalcular:hover {
   background-color: #FAC697;
   color: #550252;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.whatsappButton{
+  height: 35px;
+  width: 250px;
+  border: none;
+  border-radius: 10px;
+  background-color: #369452;
+  color: #FFF5ED;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 7px;
+}
+
+.whatsappButton:active {
+  background-color: #296d3e;
+  border: 2px solid #225733;
+  color: #FAC697;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.whatsappButton:hover {
+  background-color: #FAC697;
+  color: #225733;
   font-weight: bold;
   transition: 0.5s;
 }

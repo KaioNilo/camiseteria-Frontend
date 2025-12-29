@@ -42,13 +42,13 @@ function ProductCard({ id, name, price, size, image }) {
                 className={styles.image} 
             />
 
-            <h5>{name || 'Nome Indisponível'}</h5>
+            <h5 className={styles.nameProduct}>{name || 'Nome Indisponível'}</h5>
 
             <div className={styles.info}>
 
                 <div className={styles.price}>
-                    <p>De <span>{formattedOriginalPrice}</span> por</p>
-                    <h3>{formattedPrice}</h3>
+                    <p className={styles.originalPrice}>De <span>{formattedOriginalPrice}</span> por</p>
+                    <h3 className={styles.finalPrice}>{formattedPrice}</h3>
                 </div>
 
                 <div className={styles.sizes}>

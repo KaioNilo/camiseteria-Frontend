@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './Simulation.module.css';
+import { FaWhatsapp } from "react-icons/fa";
+
 
 const BASE_URL_ENV = import.meta.env.VITE_API_URL || 'https://camiseteria-backend.onrender.com';
 const API_BASE_URL = BASE_URL_ENV.replace(/\/$/, '');
@@ -83,10 +85,15 @@ function Simulation() {
 
     return (
         <div id="frete" className={styles.simulation}>
-            <div className={styles.formFrete}>
+            <
+                div className={styles.formFrete}>
+
                 <h2>Simular Frete e Entrega</h2>
+                
                 <form onSubmit={simularFrete} className={styles.formulario}>
+                
                     <div className={styles.cep}>
+                
                         <label>Seu CEP:</label>
                         <input 
                             type="text" 
@@ -103,6 +110,7 @@ function Simulation() {
                     </div>
 
                     <div className={styles.inputQtd}>
+                
                         <label>Quantidade:</label>
                         <input type="number" min="1" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
                     </div>
@@ -116,7 +124,7 @@ function Simulation() {
                         </label>
                     </div>
 
-                    <button type='submit' disabled={carregando || !cep || !servico}>
+                    <button className={styles.botaoCalcular} type='submit' disabled={carregando || !cep || !servico}>
                         {carregando ? 'Calculando...' : 'Calcular Frete'}
                     </button>
                 </form>
@@ -125,11 +133,11 @@ function Simulation() {
                     {erro && <p className={styles.erroCep}>{erro}</p>}
                     {valorFrete && !carregando && (
                         <div className={styles.calculoFrete}>
-                            <h3>Resultado:</h3>
-                            <p>Prazo: {prazoEntrega}</p>
-                            <h2>R$ {valorFrete.replace('.', ',')}</h2> 
+                            <h3 className={styles.tituloResult}>Resultado:</h3>
+                            <p className={styles.prazoEntrega}>Prazo: {prazoEntrega}</p>
+                            <h4 className={styles.valorFrete}>R$ {valorFrete.replace('.', ',')}</h4> 
                             <button onClick={handleWhatsApp} className={styles.whatsappButton}>
-                                💬 Pedir via WhatsApp
+                                <FaWhatsapp /> Pedir via WhatsApp
                             </button>
                         </div>
                     )}

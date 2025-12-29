@@ -103,12 +103,15 @@
     opacity: 1;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 789px) {
     .swiperSlide {
         width: 15rem !important;
         height: 22rem !important;
     }
     .heading {
         font-size: 2rem;
+    }
+    .productSection {
+        margin-top: 50px;
     }
 }
